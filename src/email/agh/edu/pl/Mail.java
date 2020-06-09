@@ -3,10 +3,8 @@ package email.agh.edu.pl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -19,10 +17,14 @@ public class Mail implements Serializable {
 	private String sender;
 	private String senderName;
 	private String recipient;
+	private String ccRecipient;
+	private String bccRecipient;
 	private String subject;
 	private LocalDateTime date;
 	private String text;
 	private String buildText;
+
+
 	private String encodedText;
 	private File attachment;
 
@@ -53,6 +55,23 @@ public class Mail implements Serializable {
 	public void setRecipient(String recipient) {
 		this.recipient = recipient;
 	}
+
+	public String getCcRecipent() {
+		return ccRecipient;
+	}
+
+	public String getBccRecipent() {
+		return bccRecipient;
+	}
+
+	public void setCcRecipent(String ccRecipent) {
+		this.ccRecipient = ccRecipent;
+	}
+
+	public void setBccRecipent(String bccRecipent) {
+		this.bccRecipient = bccRecipent;
+	}
+
 
 	public String getSubject() {
 		return subject;
@@ -109,6 +128,8 @@ public class Mail implements Serializable {
 		sb.append("Date: ").append(DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC)))
 				.append("\n");
 		sb.append("To: ").append(recipient).append("\n");
+		sb.append("Cc: ").append(ccRecipient).append("\n");
+		sb.append("Bcc: ").append(bccRecipient).append("\n");
 		sb.append("From: ").append(senderName).append(" <").append(sender).append(">\n");
 		sb.append("Subject: ").append(subject).append("\n");
 		sb.append("MIME-Version: 1.0\n");
@@ -135,6 +156,7 @@ public class Mail implements Serializable {
 
 	}
 
+
 	private String encodeAttachment() throws FileNotFoundException, IOException {
 		try (InputStream is = new FileInputStream(attachment)) {
 			long length = attachment.length();
@@ -151,7 +173,8 @@ public class Mail implements Serializable {
 			return Base64.getEncoder().encodeToString(bytes);
 		}
 	}
-	
+
+	//TODO:
 	public void decodeMail() {
 		
 	}

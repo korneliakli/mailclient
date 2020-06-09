@@ -42,16 +42,16 @@ public class SMTPConnection {
 		
 	public void beginConnection() throws IOException, InterruptedException, ConnectException {
 		String response;
-		writetoServer("HELO mailclient.agh.edu.pl");
+		writeToServer("HELO mailclient.agh.edu.pl");
 		response = readResponse();
 		System.out.println(response);
-		writetoServer("AUTH LOGIN");
+		writeToServer("AUTH LOGIN");
 		response = readResponse();
 		System.out.println(response);
-		writetoServer(Base64.getEncoder().encodeToString(login.getBytes()));
+		writeToServer(Base64.getEncoder().encodeToString(login.getBytes()));
 		response = readResponse();
 		System.out.println(response);
-		writetoServer(Base64.getEncoder().encodeToString(password.getBytes()));
+		writeToServer(Base64.getEncoder().encodeToString(password.getBytes()));
 		response = readResponse();
 		System.out.println(response);
 		if(response.startsWith("235")) {
@@ -63,7 +63,7 @@ public class SMTPConnection {
 		
 	}
 	
-	public void writetoServer(String message) {
+	public void writeToServer(String message) {
 		writer.println(message);
 	}
 	
